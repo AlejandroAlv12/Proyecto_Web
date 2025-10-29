@@ -1,0 +1,77 @@
+/* --- NAVBAR --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #003366;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.logo span {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Enlaces */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #6dbf49;
+}
+
+/* Icono de usuario */
+.user-icon img {
+  width: 30px;
+  cursor: pointer;
+  
+}
+
+/* Logo Odessa */
+.logo img {
+  width: 50px; 
+  height: auto;
+  margin-right: 10px;
+  
+}
+
+.logo img,
+.user-icon img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain; 
+  background-color: transparent; 
+  border-radius: 50%;    
+}
+
