@@ -1,10 +1,9 @@
-/* --- NAVBAR --- */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
+  height: 80px;
   background-color: #003366;
   color: white;
   display: flex;
@@ -23,9 +22,9 @@
 }
 
 .logo img {
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 
 .logo span {
@@ -38,6 +37,8 @@
   list-style: none;
   display: flex;
   gap: 30px;
+  margin-left: auto;
+  padding-right: 30px;
 }
 
 .nav-links a {
@@ -51,6 +52,30 @@
   color: #6dbf49;
 }
 
+/* User Icon */
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.user-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.user-icon:hover {
+  transform: scale(1.1);
+}
+
+
 /* Icono de usuario */
 .user-icon img {
   width: 30px;
@@ -60,7 +85,7 @@
 
 /* Logo Odessa */
 .logo img {
-  width: 50px; /* puedes probar 40px, 60px, etc */
+  width: 50px; 
   height: auto;
   margin-right: 10px;
   
@@ -70,8 +95,8 @@
 .user-icon img {
   width: 45px;
   height: 45px;
-  object-fit: contain;   /* mantiene proporciones */
-  background-color: transparent; /* asegura que no tenga fondo */
-  border-radius: 50%;    /* opcional: redondea el borde */
+  object-fit: contain;   
+  background-color: transparent; 
+  border-radius: 50%;    
 }
 

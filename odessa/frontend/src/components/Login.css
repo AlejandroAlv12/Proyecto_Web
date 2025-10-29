@@ -12,6 +12,7 @@
 }
 
 .login-box {
+  position: relative;
   background: white;
   color: black;
   padding: 30px;
@@ -27,6 +28,7 @@
   margin: 10px 0;
   border-radius: 8px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .login-box button {
@@ -35,7 +37,7 @@
   width: 100%;
   border: none;
   border-radius: 8px;
-  background-color: #333;
+  background-color: #003366;
   color: white;
   cursor: pointer;
   transition: background 0.3s;
@@ -45,7 +47,41 @@
   background-color: #6dbf49;
 }
 
-.close-btn {
-  background-color: #bbb;
-  margin-top: 8px;
+.close-x {
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  width: 30px !important;
+  height: 30px;
+  border-radius: 50% !important;
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.close-x:hover {
+  background-color: #e0e0e0 !important;
+}
+
+.switch-form {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.switch-form span {
+  color: #003366;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.switch-form span:hover {
+  color: #6dbf49;
+}
+

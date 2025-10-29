@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "../assets/logo.png";
-import userIcon from "../assets/user-icon.png"; // 👈 importamos el icono del usuario
-import Login from "./Login"; // 👈 lo agregaremos después
+import userIcon from "../assets/user-icon.png";
+import Login from "./Login";
+import Register from "./Register";
 
 const Navbar = () => {
-  const [mostrarLogin, setMostrarLogin] = useState(false); // estado para mostrar/ocultar login
+  const [mostrarLogin, setMostrarLogin] = useState(false);
+  const [mostrarRegister, setMostrarRegister] = useState(false);
 
   const toggleLogin = () => {
     setMostrarLogin(!mostrarLogin);
+    setMostrarRegister(false);
+  };
+
+  const toggleRegister = () => {
+    setMostrarRegister(!mostrarRegister);
+    setMostrarLogin(false);
   };
 
   return (
@@ -31,8 +39,19 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* 👇 Mostramos el login si el estado está activo */}
-      {mostrarLogin && <Login onClose={toggleLogin} />}
+      {mostrarLogin && (
+        <Login 
+          onClose={toggleLogin}
+          onSwitchToRegister={toggleRegister}
+        />
+      )}
+      
+      {mostrarRegister && (
+        <Register
+          onClose={toggleRegister}
+          onSwitchToLogin={toggleLogin}
+        />
+      )}
     </>
   );
 };

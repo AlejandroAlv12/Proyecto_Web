@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-const Login = ({ onClose, onSwitchToRegister }) => {
+const Register = ({ onClose, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
   });
@@ -10,7 +11,7 @@ const Login = ({ onClose, onSwitchToRegister }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,12 +20,11 @@ const Login = ({ onClose, onSwitchToRegister }) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        onClose();
+        alert("Registro exitoso");
+        onSwitchToLogin();
       } else {
         const error = await response.json();
-        alert(error.message || "Error al iniciar sesión");
+        alert(error.message || "Error al registrar");
       }
     } catch (error) {
       alert("Error al conectar con el servidor");
@@ -44,8 +44,15 @@ const Login = ({ onClose, onSwitchToRegister }) => {
     }}>
       <div className="login-box">
         <button className="close-x" onClick={onClose}>×</button>
-        <h2>Iniciar Sesión</h2>
+        <h2>Registrarse</h2>
         <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Usuario"
+            value={formData.username}
+            onChange={handleChange}
+          />
           <input
             type="email"
             name="email"
@@ -60,13 +67,14 @@ const Login = ({ onClose, onSwitchToRegister }) => {
             value={formData.password}
             onChange={handleChange}
           />
-          <button type="submit">Entrar</button>
+          <button type="submit">Registrarse</button>
           <p className="switch-form">
-            ¿Aún no tienes cuenta? <span onClick={onSwitchToRegister}>Regístrate</span>
+            ¿Ya tienes cuenta? <span onClick={onSwitchToLogin}>Inicia sesión</span>
           </p>
         </form>
       </div>
     </div>
   );
-}
-export default Login;
+};
+
+export default Register;
