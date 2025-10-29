@@ -60,7 +60,7 @@
 
 /* Logo Odessa */
 .logo img {
-  width: 50px; 
+  width: 50px; /* puedes probar 40px, 60px, etc */
   height: auto;
   margin-right: 10px;
   
@@ -70,8 +70,8 @@
 .user-icon img {
   width: 45px;
   height: 45px;
-  object-fit: contain; 
-  background-color: transparent; 
-  border-radius: 50%;    
+  object-fit: contain;   /* mantiene proporciones */
+  background-color: transparent; /* asegura que no tenga fondo */
+  border-radius: 50%;    /* opcional: redondea el borde */
 }
 
