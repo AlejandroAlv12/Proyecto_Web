@@ -4,7 +4,9 @@ import "./Login.css";
 const Login = ({ onClose, onSwitchToRegister }) => {
   const [formData, setFormData] = useState({
     email: "",
+    name: "",
     password: "",
+    confirmPassword: ""
   });
 
   const handleSubmit = async (e) => {
