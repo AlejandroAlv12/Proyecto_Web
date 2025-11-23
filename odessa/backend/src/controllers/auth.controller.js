@@ -3,84 +3,68 @@ const queries = require('../models/sqlQueries');
 const { hashPassword, comparePassword } = require('../utils/hash');
 const jwt = require('jsonwebtoken');
 
-const register = async (req, res) => {
+async function register(req, res) {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, passwordConfirm } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !passwordConfirm) {
       return res.status(400).json({ message: 'Faltan datos' });
     }
 
-    const pool = await getPool();
+    if (password !== passwordConfirm) {
+      return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+    }
 
-    // comprobar si ya existe el email (evitamos declarar el tipo explícito para prevenir problemas de longitud)
+    const pool = await getPool();
     const existing = await pool.request()
-      .input('email', email)
+      .input('email', sql.VarChar, email)
       .query(queries.getUserByEmail);
 
-    if (existing.recordset.length) {
-      return res.status(400).json({ message: 'Email ya registrado' });
+    if (existing.recordset && existing.recordset.length > 0) {
+      return res.status(409).json({ message: 'Usuario ya existe' });
     }
 
     const passwordHash = await hashPassword(password);
 
-    // insertar nuevo usuario
     const result = await pool.request()
-      .input('username', username)
-      .input('email', email)
-      .input('passwordHash', passwordHash)
+      .input('username', sql.VarChar, username)
+      .input('email', sql.VarChar, email)
+      .input('passwordHash', sql.VarChar, passwordHash)
       .query(queries.createUser);
 
-    // depurar la respuesta de la consulta
-    console.log('Result from createUser:', {
-      recordset: result.recordset,
-      rowsAffected: result.rowsAffected
-    });
-
-    if (!result.recordset || result.recordset.length === 0) {
-      // no se obtuvo el id insertado, devolver 500 con mensaje más claro
-      console.error('No se obtuvo id tras INSERT. Resultado completo:', result);
-      return res.status(500).json({ message: 'No se pudo crear el usuario (no se obtuvo id)' });
-    }
-
-    const id = result.recordset[0].id;
-    return res.status(201).json({ id, username, email });
+    const created = result.recordset && result.recordset[0] ? result.recordset[0] : null;
+    return res.status(201).json({ id: created ? created.id : null, username, email });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al registrar usuario' });
+    console.error('register error:', err);
+    return res.status(500).json({ message: 'Error al registrar usuario' });
   }
-};
+}
 
-const login = async (req, res) => {
+async function login(req, res) {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Faltan datos' });
-    }
+    if (!email || !password) return res.status(400).json({ message: 'Faltan datos' });
 
     const pool = await getPool();
     const result = await pool.request()
       .input('email', sql.VarChar, email)
       .query(queries.getUserByEmail);
 
-    const user = result.recordset[0];
+    const user = result.recordset && result.recordset[0];
     if (!user) return res.status(401).json({ message: 'Credenciales inválidas' });
 
     const match = await comparePassword(password, user.passwordHash);
     if (!match) return res.status(401).json({ message: 'Credenciales inválidas' });
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
-    );
+    const payload = { id: user.id, email: user.email };
+    const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', { expiresIn: '12h' });
 
-    res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+    const { passwordHash, ...userSafe } = user;
+    return res.json({ token, user: userSafe });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error al iniciar sesión' });
+    console.error('login error:', err);
+    return res.status(500).json({ message: 'Error al iniciar sesión' });
   }
-};
+}
 
 module.exports = { register, login };

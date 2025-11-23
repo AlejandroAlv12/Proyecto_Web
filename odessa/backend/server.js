@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 });
 
 // Levantamos el servidor
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en el puerto ${PORT}`);
 });

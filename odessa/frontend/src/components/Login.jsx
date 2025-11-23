@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 
-const Login = ({ onClose, onSwitchToRegister }) => {
+const Login = ({ onClose, onSwitchToRegister, onLogin }) => {
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -12,7 +12,7 @@ const Login = ({ onClose, onSwitchToRegister }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("http://localhost:5001/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,6 +23,12 @@ const Login = ({ onClose, onSwitchToRegister }) => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
+        // store user safe info if provided by backend
+        if (data.user) {
+          localStorage.setItem('usuario', JSON.stringify(data.user));
+        }
+        // notify parent (Navbar) about successful login
+        if (onLogin) onLogin(data.user || null);
         onClose();
       } else {
         const error = await response.json();
@@ -40,11 +46,18 @@ const Login = ({ onClose, onSwitchToRegister }) => {
     });
   };
 
+  useEffect(() => {
+    const prev = document.body.style.overflow || '';
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
   return (
-    <div className="login-overlay" onClick={(e) => {
-      if (e.target.className === "login-overlay") onClose();
+    <div className="login-overlay enter" onClick={(e) => {
+      // cerrar sólo si el click fue en el overlay (no en los hijos)
+      if (e.target === e.currentTarget) onClose();
     }}>
-      <div className="login-box">
+      <div className="login-box enter">
         <button className="close-x" onClick={onClose}>×</button>
         <h2>Iniciar Sesión</h2>
         <form onSubmit={handleSubmit}>

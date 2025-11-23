@@ -1,12 +1,14 @@
-##conectar
+# Odessa_PW
+Proyecto Final de Programación Web Sección 02
 
-´al empezar realizar esto: en estas rutas ejecutar su respectivo codigo´
-odessa/backend/src    (puede ser no necesario)
-node index.js
+>pasos para correr localmente:
 
-odessa/backend
-npm run dev
+en la ruta: odessa/backend
+´npm run dev´
 
-odessa/frontend
-npm run dev
+en la ruta: odessa/frontend
+´npm run dev´
 
+>para crear ramas
+
+´git switch -c Feature/Nombre´
