@@ -71,6 +71,13 @@
     margin-bottom: 0.8rem;
 }
 
+.phone-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .phone-box {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 10px 15px;
@@ -82,11 +89,18 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
+    position: relative;
+    z-index: 2;
 }
 
 .phone-box:hover {
     background-color: rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
+}
+
+.phone-box:active {
+    transform: scale(0.95);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .copy-icon {
@@ -96,10 +110,49 @@
     fill: none;
 }
 
+.copied-badge {
+    color: #fff;
+    position: absolute;
+    top: -37px;
+    font-size: small;
+    font-weight: 600;
+    background: #b31515;
+    padding: 5px 10px;
+    border-radius: 20px;
+    opacity: 1;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    transform: scale(0);
+    transition: all 0.4s ease-out;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.copied-badge::before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    top: auto;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #b31515;
+}
+
+.copied-badge.show {
+    opacity: 1;
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+    transform: scale(1);
+}
+
 .schedule-box {
     margin-top: 15px;
     text-align: center;
-    color: rgba(196, 196, 196, 0.849);
+    color: #acd6ab;
 }
 
 .schedule-label {
@@ -113,6 +166,7 @@
 
 .schedule-time {
     font-size: 0.95rem;
+    font-weight: 400;
     margin: 2px 0;
     line-height: 1.4;
 }
@@ -177,7 +231,7 @@
         flex-wrap: wrap;
         gap: 15px;
     }
-    
+
     .schedule-box {
         text-align: center;
         margin-top: 20px;
